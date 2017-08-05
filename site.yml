@@ -1,0 +1,7 @@
+- name: FBAAS web server
+  gather_facts: True
+  hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+    - fbaas

@@ -1,0 +1,19 @@
+- name: apt-get install pip package manager
+  apt:
+    name: python-pip
+    state: present
+
+- name: pip install flask web application framework and gunicorn web proxy
+  pip:
+    name: flask, gunicorn
+
+- name: copy python web app script
+  template:
+    src: /tmp/roles/fbaas/templates/fbaas.py.j2
+    dest: /etc/fbaas.py
+    mode: 0111
+
+- name: start fbaas web application
+  shell: nohup gunicorn -w 4 -b 0.0.0.0:80 fbaas:app &
+  args:
+    chdir: /etc/
